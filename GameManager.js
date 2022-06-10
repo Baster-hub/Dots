@@ -2,7 +2,7 @@ class GameManager {
     isGameOver = false;
     maxScore;
 
-    #pathManger = new PathManager();
+    #areasManager = new AreasManager();
     #redDots = new DotsManager("red");
     #blueDots = new DotsManager("blue");
     redScore;
@@ -168,7 +168,7 @@ class GameManager {
         );
         this.#redDots.draw(this.ctx);
         this.#blueDots.draw(this.ctx);
-        this.#pathManger.draw(this.ctx);
+        this.#areasManager.draw(this.ctx);
     }
 
     checkArea(array, surroundedDots) {
@@ -205,7 +205,7 @@ class GameManager {
                 secondGrid
             )
         ) {
-            this.#pathManger.pathsArray = [];
+            this.#areasManager.areasArray = [];
             this.currentSide = secondSide;
 
             mainGrid = this.ccl(mainDots.getGrid(this.#ROWS, this.#COLUMNS));
@@ -224,8 +224,8 @@ class GameManager {
 
             secondGrid = this.checkArea(secondGrid, surroundedMainDots);
 
-            this.#pathManger.addNewPaths(mainGrid, mainSide);
-            this.#pathManger.addNewPaths(secondGrid, secondSide);
+            this.#areasManager.addNewAreas(mainGrid, mainSide);
+            this.#areasManager.addNewAreas(secondGrid, secondSide);
         }
         return [mainGrid, secondGrid];
     }

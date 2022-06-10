@@ -1,4 +1,4 @@
-class Path {
+class Area {
     dotsArray;
     side;
     constructor(array, side) {

@@ -25,8 +25,3 @@ can1.onclick = (e) => {
 	gameManager.mouseClick();
 };
 
-document.addEventListener("keypress", (e) => {
-    if(e.keyCode == 32)
-        gameManager.isGameOver = true;
-})
-
