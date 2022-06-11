@@ -1,27 +1,36 @@
-const can1 = document.getElementById("can1");
-const redScore = document.getElementById("red")
-const blueScore = document.getElementById("blue")
-const endGameDiv = document.getElementById("end-game");
+const canvas     = document.getElementById("can1");
+const redScore   = document.getElementById("red");
+const maxScore   = document.getElementById("max-score");
+const blueScore  = document.getElementById("blue");
+const gameField  = document.getElementById("game");
+const endGameDiv = document.getElementById("backgroundShadow");
+const startGameHandler = document.getElementById("start-game");
 
-const gameManager = new GameManager(
-    20,
-    20,
-    30,
-    can1,
-    endGameDiv,
-    "red",
-    redScore,
-    blueScore,
-    5
-);
+let gameManager;
 
-can1.onmousemove = (e) => {
-    const canPos = can1.getBoundingClientRect();
+startGameHandler.onclick = (e) => {
+    endGameDiv.firstElementChild.style.display = "none";
+    endGameDiv.style.display = "none";
+    gameField.style.display = "flex";
+    gameManager = new GameManager(
+        10,
+        7,
+        50,
+        canvas,
+        endGameDiv,
+        "red",
+        redScore,
+        blueScore,
+        +maxScore.value
+    );
+};
+
+canvas.onmousemove = (e) => {
+    const canPos = canvas.getBoundingClientRect();
 
     gameManager.mouseMove(e.clientX - canPos.left, e.clientY - canPos.top);
 };
 
-can1.onclick = (e) => {
-	gameManager.mouseClick();
+canvas.onclick = (e) => {
+    gameManager.mouseClick();
 };
-

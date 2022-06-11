@@ -15,9 +15,10 @@
                 justify-content: center;
                 align-items: center;
             }
-            .game {
+            #game {
                 display: flex;
                 flex-direction: column;
+                display: none;
             }
 
             .userScore {
@@ -40,7 +41,7 @@
                 border: 2px solid black;
             }
 
-            #end-game {
+            #backgroundShadow {
                 width: 100%;
                 height: 100%;
                 position: absolute;
@@ -50,7 +51,6 @@
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                display: none;
             }
 
             button {
@@ -68,32 +68,45 @@
                 background-color: #ddd;
             }
 
-            .winner {
+            .interface-block {
                 border: 2px solid black;
                 background-color: white;
-                font-size: 3rem;
                 padding: 2rem;
                 font-family: Arial;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: space-around;
+                display: grid;
+                gap: 20px;
+                justify-items: center;
             }
+
+            .game-settings {
+                font-size: 2rem;
+            }
+
+            .winner {
+                font-size: 3rem;
+                display: none;
+            }
+
             .winner span {
                 margin-bottom: 1rem;
             }
+
             
         </style>
     </head>
     <body>
-        <div id="end-game">
-            <div class="winner">
+        <div id="backgroundShadow">
+            <div class="interface-block game-settings">
+                <input type="text" id="max-score" placeholder="Кількість очок">
+                <button id="start-game">Почати гру</button>
+            </div>
+            <div class="interface-block winner">
                 <span></span>
                 <button onclick="location.reload()">Restart</button>
             </div>
         </div>
 
-        <div class="game">
+        <div id="game">
             <div class="userScore">
                 <span id="red">0</span>
                 <span id="blue">0</span>

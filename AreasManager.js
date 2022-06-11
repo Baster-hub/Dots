@@ -30,7 +30,7 @@ class AreasManager {
         return area;
     }
 
-    addNewAreas(array, side) {
+    findAllArea(array, side) {
         let areas = {};
 
         array.forEach((item1, i) => {

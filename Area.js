@@ -19,6 +19,7 @@ class Area {
             this.dotsArray[this.dotsArray.length - 1].dotRow *
                 this.dotsArray[this.dotsArray.length - 1].DBC
         );
+        
         this.dotsArray.forEach((item) => {
             ctx.lineTo(item.dotColumn * item.DBC, item.dotRow * item.DBC);
         });

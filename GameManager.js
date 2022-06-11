@@ -224,8 +224,8 @@ class GameManager {
 
             secondGrid = this.checkArea(secondGrid, surroundedMainDots);
 
-            this.#areasManager.addNewAreas(mainGrid, mainSide);
-            this.#areasManager.addNewAreas(secondGrid, secondSide);
+            this.#areasManager.findAllArea(mainGrid, mainSide);
+            this.#areasManager.findAllArea(secondGrid, secondSide);
         }
         return [mainGrid, secondGrid];
     }
@@ -234,7 +234,8 @@ class GameManager {
         let winner = +this.redScore.innerHTML > +this.blueScore.innerHTML ? "Red" : "Blue";
         this.endScreen.style.display = "flex";
         this.endScreen.style.color = winner.toLowerCase();
-        this.endScreen.firstElementChild.firstElementChild.innerHTML =
+        this.endScreen.lastElementChild.style.display = "grid";
+        this.endScreen.lastElementChild.firstElementChild.innerHTML =
             winner + " player win";
     }
 
@@ -257,10 +258,9 @@ class GameManager {
     }
 
     mouseMove(mouseX, mouseY) {
-        if (this.isGameOver) {
-            this.gameOver()
+        if (this.isGameOver) 
             return;
-        }
+        
 
         let dotColumn = Math.round(mouseX / this.#DBC);
         let dotRow = Math.round(mouseY / this.#DBC);
@@ -270,10 +270,9 @@ class GameManager {
     }
 
     mouseClick() {
-        if (this.isGameOver) {
-            this.gameOver()
+        if (this.isGameOver)
             return;
-        }
+        
         let tempDot = new Dot(
             this.dotColumn,
             this.dotRow,
@@ -315,5 +314,7 @@ class GameManager {
             this.blueScore
         );
         this.draw();
+        if (this.isGameOver)
+            this.gameOver()
     }
 }
