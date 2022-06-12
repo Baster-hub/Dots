@@ -6,9 +6,7 @@ class CCL {
                     args = func(array, i, j, ...args);
     }
 
-    findNeighboursCCL(array, i, j, linked) {
-		let nextNum = 1;
-		
+    findNeighboursCCL(array, i, j, linked, nextNum) {		
         if (i == 0 || typeof array[i - 1][j] != "number") {
             if (j == 0 || typeof array[i][j - 1] != "number") {
                 array[i][j] = nextNum;
@@ -67,16 +65,18 @@ class CCL {
         return [background];
     }
 
-    ccl(fakeArray) {
+    findGrid(fakeArray) {
         let tempArray = JSON.parse(JSON.stringify(fakeArray));
 
         let linked = [];
         let background = {};
+		let nextNum = 1;
 
-        this.arrayLoop(tempArray, this.findNeighboursCCL, linked);
+        this.arrayLoop(tempArray, this.findNeighboursCCL, linked, nextNum);
         this.arrayLoop(tempArray, this.makeAllArea, linked, background);
         this.arrayLoop(tempArray, this.fillBackground, background);
 
+        
         return tempArray;
     }
 }
