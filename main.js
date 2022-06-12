@@ -3,19 +3,21 @@ const redScore   = document.getElementById("red");
 const maxScore   = document.getElementById("max-score");
 const blueScore  = document.getElementById("blue");
 const gameField  = document.getElementById("game");
+const rows       = document.getElementById("rows");
+const columns    = document.getElementById("columns");
 const endGameDiv = document.getElementById("backgroundShadow");
-const startGameHandler = document.getElementById("start-game");
-
+const startGame  = document.getElementById("start-game");
+console.log(endGameDiv.lastElementChild.getElementsByTagName("span")[1].innerHTML = "5 : 5");
 let gameManager;
 
-startGameHandler.onclick = (e) => {
+startGame.onclick = (e) => {
     endGameDiv.firstElementChild.style.display = "none";
     endGameDiv.style.display = "none";
     gameField.style.display = "flex";
     gameManager = new GameManager(
-        10,
-        7,
-        50,
+        +columns.value,
+        +rows.value,
+        25,
         canvas,
         endGameDiv,
         "red",

@@ -19,6 +19,7 @@ class GameField {
 
     drawFieldCells(ctx) {
         ctx.strokeStyle = "black";
+        ctx.globalAlpha = 0.7;
 
         ctx.beginPath();
 
@@ -33,6 +34,7 @@ class GameField {
         }
 
         ctx.stroke();
+        ctx.globalAlpha = 1;
     }
 
     drawDotShadow(ctx, side, dotColumn, dotRow) {

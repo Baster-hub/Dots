@@ -17,7 +17,7 @@ class GameManager {
     width;
     height;
     ctx;
-    endScreen;
+    mainScreen;
     currentSide;
     dotColumn;
     dotRow;
@@ -35,10 +35,12 @@ class GameManager {
     ) {
         this.#DBC = distance_between_cells;
         this.currentSide = currentSide;
-        this.#COLUMNS = columns;
-        this.#ROWS = rows;
+        columns = columns || 20;
+        rows = rows || 15;
+        this.#COLUMNS = Math.floor(Math.abs(columns));
+        this.#ROWS = Math.floor(Math.abs(rows));
         this.ctx = canvas.getContext("2d");
-        this.endScreen = endGameElement;
+        this.mainScreen = endGameElement;
         this.width = canvas.width = (this.#COLUMNS + 1) * this.#DBC;
         this.height = canvas.height = (this.#ROWS + 1) * this.#DBC;
 
@@ -51,7 +53,7 @@ class GameManager {
         this.#gameField.drawFieldCells(this.ctx);
         this.redScore = redScore;
         this.blueScore = blueScore;
-        this.maxScore = maxScore ?? columns * rows;
+        this.maxScore = maxScore || columns * rows;
 
         this.redGrid = Array.from(Array(this.#ROWS), () =>
             new Array(this.#COLUMNS).fill(0)
@@ -171,7 +173,7 @@ class GameManager {
         this.#areasManager.draw(this.ctx);
     }
 
-    checkArea(array, surroundedDots) {
+    checkGrid(array, surroundedDots) {
         let key = surroundedDots.reduce((accum, item) => {
             accum.push(array[item.dotRow - 1][item.dotColumn - 1]);
             return accum;
@@ -205,7 +207,6 @@ class GameManager {
                 secondGrid
             )
         ) {
-            this.#areasManager.areasArray = [];
             this.currentSide = secondSide;
 
             mainGrid = this.ccl(mainDots.getGrid(this.#ROWS, this.#COLUMNS));
@@ -213,17 +214,16 @@ class GameManager {
             let surroundedSecondDots = secondDots.checkDots(mainGrid);
             mainScore.innerHTML = surroundedSecondDots.length.toString();
 
-            mainGrid = this.checkArea(mainGrid, surroundedSecondDots);
+            mainGrid = this.checkGrid(mainGrid, surroundedSecondDots);
 
-            secondGrid = this.ccl(
-                secondDots.getGrid(this.#ROWS, this.#COLUMNS)
-            );
+            secondGrid = this.ccl(secondDots.getGrid(this.#ROWS, this.#COLUMNS));
 
             let surroundedMainDots = mainDots.checkDots(secondGrid);
             secondScore.innerHTML = surroundedMainDots.length.toString();
 
-            secondGrid = this.checkArea(secondGrid, surroundedMainDots);
-
+            secondGrid = this.checkGrid(secondGrid, surroundedMainDots);
+            
+            this.#areasManager.areasArray = [];
             this.#areasManager.findAllArea(mainGrid, mainSide);
             this.#areasManager.findAllArea(secondGrid, secondSide);
         }
@@ -231,12 +231,14 @@ class GameManager {
     }
 
     gameOver() {
-        let winner = +this.redScore.innerHTML > +this.blueScore.innerHTML ? "Red" : "Blue";
-        this.endScreen.style.display = "flex";
-        this.endScreen.style.color = winner.toLowerCase();
-        this.endScreen.lastElementChild.style.display = "grid";
-        this.endScreen.lastElementChild.firstElementChild.innerHTML =
-            winner + " player win";
+        let winner = +this.redScore.innerHTML > +this.blueScore.innerHTML ? "red" : "blue";
+        this.mainScreen.style.display = "flex";
+        this.mainScreen.style.color = winner.toLowerCase();
+        let endScreen = this.mainScreen.lastElementChild;
+        endScreen.style.display = "grid";
+        endScreen.firstElementChild.innerHTML = (winner == "red" ? "Червновий" : "Синій") + " гравець виграв";
+        endScreen.getElementsByTagName("span")[1].innerHTML =
+            this.redScore.innerHTML + " : " + this.blueScore.innerHTML;
     }
 
     setIsGameOver(mainGrid, secondGrid, mainScore, secondScore) {

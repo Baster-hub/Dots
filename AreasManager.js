@@ -33,25 +33,23 @@ class AreasManager {
     findAllArea(array, side) {
         let areas = {};
 
-        array.forEach((item1, i) => {
-            item1.forEach((item2, j) => {
-                if (typeof item2 == "object") {
-                    let temp = this.getNeighbours(array, i, j, item2);
-                    temp.forEach((item3) => {
-                        if (typeof item3 == "number" && item3 > 0) {
-                            if (!Array.isArray(areas[item3.toString()]))
-                                areas[item3.toString()] = [];
+        for(let i = 0; i < array.length; i++)
+            for(let j = 0; j < array[i].length; j++)
+                if(typeof array[i][j] == "object") {
+                    let temp = this.getNeighbours(array, i, j, array[i][j]);
+                    temp.forEach((neighbour) => {
+                        if (typeof neighbour == "number" && neighbour > 0) {
+                            if (!Array.isArray(areas[neighbour.toString()]))
+                                areas[neighbour.toString()] = [];
                             if (
-                                areas[item3.toString()].every(
-                                    (item4) => item4.id != item2.id
+                                areas[neighbour.toString()].every(
+                                    (item) => item.id != array[i][j].id
                                 )
                             )
-                                areas[item3.toString()].push(item2);
+                                areas[neighbour.toString()].push(array[i][j]);
                         }
                     });
                 }
-            });
-        });
 
         areas = Object.entries(areas).map((item) =>
             item[1].filter((item2) => {
