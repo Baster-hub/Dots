@@ -21,7 +21,7 @@ class DotsManager {
     checkDots(array) {
         return this.dotsArray.filter((item) => !item.check(array));
     }
-
+    
     addNewDots(dot, enemyDotsArray, redGrid, blueGrid) {
 
         if (

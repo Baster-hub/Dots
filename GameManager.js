@@ -97,6 +97,7 @@ class GameManager {
     checkGrid(array, surroundedDots) {
         let key = surroundedDots.reduce((accum, item) => {
             accum.push(array[item.dotRow - 1][item.dotColumn - 1]);
+            
             return accum;
         }, []);
 
@@ -155,7 +156,9 @@ class GameManager {
         let winner = +this.redScore.innerHTML > +this.blueScore.innerHTML ? "red" : "blue";
         this.mainScreen.style.display = "flex";
         this.mainScreen.style.color = winner.toLowerCase();
+
         let endScreen = this.mainScreen.lastElementChild;
+
         endScreen.style.display = "grid";
         endScreen.firstElementChild.innerHTML = (winner == "red" ? "Червновий" : "Синій") + " гравець виграв";
         endScreen.getElementsByTagName("span")[1].innerHTML =
@@ -183,7 +186,6 @@ class GameManager {
     mouseMove(mouseX, mouseY) {
         if (this.isGameOver) 
             return;
-        
 
         let dotColumn = Math.round(mouseX / this.#DBC);
         let dotRow = Math.round(mouseY / this.#DBC);
@@ -230,6 +232,7 @@ class GameManager {
             );
         }
 
+
         this.setIsGameOver(
             this.redGrid,
             this.blueGrid,
@@ -237,6 +240,7 @@ class GameManager {
             this.blueScore
         );
         this.draw();
+
         if (this.isGameOver)
             this.gameOver()
     }

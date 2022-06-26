@@ -7,13 +7,14 @@ const rows       = document.getElementById("rows");
 const columns    = document.getElementById("columns");
 const endGameDiv = document.getElementById("backgroundShadow");
 const startGame  = document.getElementById("start-game");
-console.log(endGameDiv.lastElementChild.getElementsByTagName("span")[1].innerHTML = "5 : 5");
+
 let gameManager;
 
 startGame.onclick = (e) => {
     endGameDiv.firstElementChild.style.display = "none";
     endGameDiv.style.display = "none";
     gameField.style.display = "flex";
+    
     gameManager = new GameManager(
         +columns.value,
         +rows.value,
