@@ -6,11 +6,11 @@ class CCL {
                     args = func(array, i, j, ...args);
     }
 
-    findNeighboursCCL(array, i, j, linked, nextNum) {		
+    findNeighboursCCL(array, i, j, linked, nextNum) {
         if (i == 0 || typeof array[i - 1][j] != "number") {
             if (j == 0 || typeof array[i][j - 1] != "number") {
                 array[i][j] = nextNum;
-                linked[nextNum] = [nextNum];
+                linked[nextNum.toString()] = nextNum;
                 nextNum++;
 
                 return [linked, nextNum];
@@ -25,30 +25,23 @@ class CCL {
             return [linked, nextNum];
         }
 
-        let min = Math.min(array[i - 1][j], array[i][j - 1]);
-        let max = Math.max(array[i - 1][j], array[i][j - 1]);
+        let min = Math.min(array[i - 1][j].toString(), array[i][j - 1].toString());
+        let max = Math.max(array[i - 1][j].toString(), array[i][j - 1].toString());
 
         array[i][j] = min;
 
-        linked[max] = Array.from(new Set(linked[max].concat(linked[min])));
-        linked[min] = Array.from(new Set(linked[min].concat(linked[max])));
+        let linkMin = Math.min(linked[min.toString()], linked[max.toString()]);
+        let linkMax = Math.max(linked[min.toString()], linked[max.toString()]);
 
-        linked[max].forEach((item) => {
-            linked[item] = Array.from(
-                new Set(linked[item].concat(linked[min]))
-            );
-        });
-        linked[min].forEach((item) => {
-            linked[item] = Array.from(
-                new Set(linked[item].concat(linked[min]))
-            );
+        Object.keys(linked).forEach((item) => {
+            if (linked[item] == linkMax) linked[item] = linkMin;
         });
 
         return [linked, nextNum];
     }
 
     makeAllArea(array, i, j, linked, background) {
-        array[i][j] = Math.min(...linked[array[i][j]]);
+        array[i][j] = linked[array[i][j].toString()];
 
         if (
             [0, array.length - 1].includes(i) ||
@@ -68,15 +61,14 @@ class CCL {
     findGrid(fakeArray) {
         let tempArray = JSON.parse(JSON.stringify(fakeArray));
 
-        let linked = [];
+        let linked = {};
         let background = {};
-		let nextNum = 1;
+        let nextNum = 1;
 
         this.arrayLoop(tempArray, this.findNeighboursCCL, linked, nextNum);
         this.arrayLoop(tempArray, this.makeAllArea, linked, background);
         this.arrayLoop(tempArray, this.fillBackground, background);
 
-        
         return tempArray;
     }
 }
